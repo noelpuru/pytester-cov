@@ -40,9 +40,7 @@ for dir in $pytest_dirs; do
   pytest_cov_dirs+="--cov=${dir} "
 done
 
-# python3 -m pytest --cov=. tests/ --cov-fail-under=85
-# python3 -m pytest --cov-config=.coveragerc --cov=. tests/
-output=python3 -m pytest $pytest_cov_dirs --cov-fail-under=$3
+output=pytest $pytest_cov_dirs --cov-fail-under=$3
 
 parse_title=false
 parse_contents=false

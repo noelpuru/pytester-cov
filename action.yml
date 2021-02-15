@@ -15,11 +15,11 @@ inputs:
   cov-ignore-dirs:
     description: 'list of directories to ingore'
     required: false
-    default: '.'
+    default: ''
   cov-threshold:
     description: 'Fail if the total coverage is less than threshold'
     required: false
-    default: '0'
+    default: 0
 outputs:
   output-table: # id of output
     description: 'pytest-cov markdown output table'
