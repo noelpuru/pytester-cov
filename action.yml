@@ -1,0 +1,32 @@
+name: pytester
+author: Alexander Damiani
+description: >-
+  Recursively check pytest coverage. Fail if coverage below threshold.
+  Also generates report of coverage by file.
+branding:
+  color: 'gray-dark'
+  icon: 'check-circle'
+
+inputs:
+  pytest-root-dir:
+    description: 'root directory to recursively search for .py files'
+    required: false
+    default: '.'
+  cov-ignore-dirs:
+    description: 'list of directories to ingore'
+    required: false
+    default: '.'
+  cov-threshold:
+    description: 'Fail if the total coverage is less than threshold'
+    required: false
+    default: '0'
+outputs:
+  output-table: # id of output
+    description: 'pytest-cov markdown output table'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.pytest-root-dir }}
+    - ${{ inputs.cov-ignore-dirs }}
+    - ${{ inputs.cov-threshold }}
