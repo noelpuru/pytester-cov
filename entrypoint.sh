@@ -112,6 +112,12 @@ echo $output_table_title
 echo $output_table
 echo $output_table_contents
 
+# github actions truncates newlines, need to do replace
+# https://github.com/actions/create-release/issues/25
+output_table_contents="${output_table_contents//'%'/'%25'}"
+output_table_contents="${output_table_contents//$'\n'/'%0A'}"
+output_table_contents="${output_table_contents//$'\r'/'%0D'}"
+
 echo "::set-output name=output-table::$output_table_contents"
 
 time1=$(date)
