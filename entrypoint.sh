@@ -84,6 +84,7 @@ for x in $output; do
       if [[ "$parsed_content_header" = false && $item_cnt = 4 ]]; then
         # needed between table headers and values for markdown
         output_table_contents+="
+
         | ------ | ------ | ------ | ------ |
         "
         parsed_content_header=true
@@ -92,7 +93,9 @@ for x in $output; do
       item_cnt=$((item_cnt % items_per_row))
 
       if [ $item_cnt = 0 ]; then
-        output_table_contents+="\n"
+        output_table_contents+="
+
+        "
       fi
 
       output_table_contents+="| $x "
@@ -109,7 +112,7 @@ done
 
 
 echo $output_table_title
-echo $output_table
+# echo $output_table
 echo $output_table_contents
 
 # github actions truncates newlines, need to do replace
