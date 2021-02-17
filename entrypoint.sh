@@ -97,6 +97,7 @@ for x in $output; do
   output_table+="$x"
 done
 
+
 echo $output_table_title
 echo $output_table
 echo $output_table_contents
