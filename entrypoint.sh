@@ -97,4 +97,12 @@ for x in $output; do
   output_table+="$x"
 done
 
+echo $output_table_title
+echo $output_table
+echo $output_table_contents
+
 echo "::set-output name=output-table::$output_table_contents"
+
+time1=$(date)
+echo "::set-output name=time::$time1"
+echo "::set-output name=time1::$time1"

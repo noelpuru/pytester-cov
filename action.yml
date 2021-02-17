@@ -23,6 +23,10 @@ inputs:
 outputs:
   output-table: # id of output
     description: 'pytest-cov markdown output table'
+  time: # id of output
+    description: 'time'
+  time1: # id of output
+    description: 'time1'
 runs:
   using: 'docker'
   image: 'Dockerfile'
