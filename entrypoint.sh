@@ -84,9 +84,7 @@ for x in $output; do
       if [[ "$parsed_content_header" = false && $item_cnt = 4 ]]; then
         # needed between table headers and values for markdown
         output_table_contents+="
-
-        | ------ | ------ | ------ | ------ |
-        "
+        | ------ | ------ | ------ | ------ |"
         parsed_content_header=true
       fi
 
@@ -94,7 +92,6 @@ for x in $output; do
 
       if [ $item_cnt = 0 ]; then
         output_table_contents+="
-
         "
       fi
 
