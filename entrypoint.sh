@@ -82,9 +82,7 @@ for x in $output; do
       item_cnt=$((item_cnt % items_per_row))
 
       if [ $item_cnt = 0 ]; then
-        output_table_contents+="
-
-        "
+        output_table_contents+="\n"
       fi
 
       output_table_contents+="| $x "
