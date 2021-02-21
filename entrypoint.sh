@@ -140,13 +140,13 @@ echo 'cov_threshold_total_fail' $cov_threshold_total_fail
 
 # check if any file_cov exceeds threshold
 for file_cov in "${file_covs[@]}"; do
-  if [ "$file_cov" -lt $3 ]; then
+  if [ "$file_cov" -lt $4 ]; then
     cov_threshold_single_fail=true
   fi
 done
 
 # check if total_cov exceeds threshold
-if [ "$total_cov" -lt $4 ];
+if [ "$total_cov" -lt $5 ];
   then cov_threshold_total_fail=true
 fi
 
