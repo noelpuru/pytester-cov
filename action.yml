@@ -16,21 +16,31 @@ inputs:
     description: 'list of directories to ingore'
     required: false
     default: ''
-  cov-threshold:
-    description: 'Fail if the total coverage is less than threshold'
+  cov-ignore-files:
+    description: 'list of full filepaths to ingore'
+    required: false
+    default: ''
+  cov-threshold-single:
+    description: 'fail if any single file coverage is less than threshold'
+    required: false
+    default: 0
+  cov-threshold-total:
+    description: 'fail if the total coverage is less than threshold'
     required: false
     default: 0
 outputs:
   output-table: # id of output
     description: 'pytest-cov markdown output table'
-  time: # id of output
-    description: 'time'
-  time1: # id of output
-    description: 'time1'
+  cov-threshold-single-fail:
+    description: 'boolean if any single file coverage less than cov-threshold-single'
+  cov-threshold-total-fail:
+    description: 'boolean if total coverage less than cov-threshold-total'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{ inputs.pytest-root-dir }}
     - ${{ inputs.cov-ignore-dirs }}
-    - ${{ inputs.cov-threshold }}
+    - ${{ inputs.cov-ignore-files }}
+    - ${{ inputs.cov-threshold-single }}
+    - ${{ inputs.cov-threshold-total }}
