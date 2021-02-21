@@ -3,8 +3,9 @@
 # --- Parameters --- #
 # $1: pytest-root-dir
 # $2: cov-ignore-dirs
-# $3: cov-threshold-single
-# $3: cov-threshold-total
+# $3: cov-ignore-files
+# $4: cov-threshold-single
+# $5: cov-threshold-total
 
 cov_threshold_single_fail=false
 cov_threshold_total_fail=false
@@ -139,7 +140,7 @@ echo 'cov_threshold_total_fail' $cov_threshold_total_fail
 
 # check if any file_cov exceeds threshold
 for file_cov in "${file_covs[@]}"; do
-  if [ "$file_cov" -lt $3 ] ; then
+  if [ "$file_cov" -lt $3 ]; then
     cov_threshold_single_fail=true
   fi
 done
