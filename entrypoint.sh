@@ -108,9 +108,11 @@ for x in $output; do
         total_cov=${x::-1}  # will store last one
       fi
 
-      item_cnt=$((item_cnt % items_per_row))
+      if [[ $item_cnt == 4 ]]; then
+        parsed_content_header=true
+      fi
 
-      parsed_content_header=true
+      item_cnt=$((item_cnt % items_per_row))
 
       if [ $item_cnt = 0 ]; then
         output_table_contents+="
@@ -120,6 +122,10 @@ for x in $output; do
       output_table_contents+="| $x "
 
       item_cnt=$((item_cnt+1))
+
+      if [ $item_cnt = 4 ]; then
+        output_table_contents+="|"
+      fi
     fi
   else
     # parse title
@@ -128,6 +134,8 @@ for x in $output; do
 
   output_table+="$x"
 done
+
+echo $output_table_contents
 
 # remove last file-cov b/c it's total-cov
 unset 'file_covs[${#file_covs[@]}-1]'
