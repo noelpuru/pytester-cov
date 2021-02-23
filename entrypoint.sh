@@ -68,6 +68,9 @@ for x in $output; do
     continue
   fi
 
+  echo $parsed_content_header
+  echo $x
+
   if [ "$x" = "-----------" ]; then
     if [ "$parse_title" = false ]; then
       parse_title=true
@@ -162,6 +165,10 @@ echo $output_table_contents
 output_table_contents="${output_table_contents//'%'/'%25'}"
 output_table_contents="${output_table_contents//$'\n'/'%0A'}"
 output_table_contents="${output_table_contents//$'\r'/'%0D'}"
+
+if [ "$cov_threshold_total_fail" = true ]; then
+  $(github.Github("action@github.com", "password")pytest $pytest_cov_dirs)
+fi
 
 echo "::set-output name=output-table::$output_table_contents"
 echo "::set-output name=cov-threshold-single-fail::$cov_threshold_single_fail"
