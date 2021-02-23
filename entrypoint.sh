@@ -68,9 +68,6 @@ for x in $output; do
     continue
   fi
 
-  echo $parsed_content_header
-  echo $x
-
   if [ "$x" = "-----------" ]; then
     if [ "$parse_title" = false ]; then
       parse_title=true
@@ -146,9 +143,6 @@ file_covs=("${file_covs[@]:1}") #removed the 1st element
 for a in "${file_covs[@]}"; do echo "$a"; done
 echo 'total_cov' $total_cov
 
-echo 'cov_threshold_single_fail' $cov_threshold_single_fail
-echo 'cov_threshold_total_fail' $cov_threshold_total_fail
-
 # check if any file_cov exceeds threshold
 for file_cov in "${file_covs[@]}"; do
   if [ "$file_cov" -lt $4 ]; then
@@ -161,6 +155,8 @@ if [ "$total_cov" -lt $5 ];
   then cov_threshold_total_fail=true
 fi
 
+echo 'cov-threshold-single' $4
+echo 'cov-threshold-total' $5
 echo 'cov_threshold_single_fail' $cov_threshold_single_fail
 echo 'cov_threshold_total_fail' $cov_threshold_total_fail
 
