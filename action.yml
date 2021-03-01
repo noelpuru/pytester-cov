@@ -12,12 +12,8 @@ inputs:
     description: 'root directory to recursively search for .py files'
     required: false
     default: '.'
-  cov-ignore-dirs:
-    description: 'list of directories to ingore'
-    required: false
-    default: ''
-  cov-ignore-files:
-    description: 'list of full filepaths to ingore'
+  cov-omit-list:
+    description: 'list of directories and/or files to ignore'
     required: false
     default: ''
   cov-threshold-single:
@@ -40,7 +36,6 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.pytest-root-dir }}
-    - ${{ inputs.cov-ignore-dirs }}
-    - ${{ inputs.cov-ignore-files }}
+    - ${{ inputs.cov-omit-list }}
     - ${{ inputs.cov-threshold-single }}
     - ${{ inputs.cov-threshold-total }}

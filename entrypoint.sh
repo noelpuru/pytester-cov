@@ -2,46 +2,22 @@
 
 # --- Parameters --- #
 # $1: pytest-root-dir
-# $2: cov-ignore-dirs
-# $3: cov-ignore-files
-# $4: cov-threshold-single
-# $5: cov-threshold-total
+# $2: cov-omit-list
+# $3: cov-threshold-single
+# $4: cov-threshold-total
 
+cov_config_fname=.coveragerc
 cov_threshold_single_fail=false
 cov_threshold_total_fail=false
 
-echo 'cov_threshold_single_fail' $cov_threshold_single_fail
-echo 'cov_threshold_total_fail' $cov_threshold_total_fail
-
-# default directories to ignore testing for coverage of .py files
-default_ignore_dirs="
-  pytest
-  pytest_cache
-  __pycache__
-  test
-  tests
-  .git
-  .github"
-ignore_dirs_arr=($default_ignore_dirs)
-
 # convert directory str input to arr
-ignore_dirs_input_arr=($2)
-ignore_files_input_arr=($3)
-
-# append additional user input dirs to ignore_dirs
-for dir in "${ignore_dirs_input_arr[@]}"; do
-  echo $dir
-  ignore_dirs_arr[${#ignore_dirs_arr[*]}]="$dir"
-done
-
-# build grep cmd to ignore dirs
-grep_ignore_dirs=""
-for dir in "${ignore_dirs_arr[@]}"; do
-  grep_ignore_dirs+=" | grep -v -w '${dir}'"
-done
+cat << EOF > $cov_config_fname
+[run]
+omit = $2
+EOF
 
 # get list of dirs to run pytest-cov on
-find_cmd_str="find $1 -type d $grep_ignore_dirs"
+find_cmd_str="find $1 -type d"
 pytest_dirs=$(eval "$find_cmd_str")
 
 # build cov argument for pytest cmd with list of dirs
@@ -52,7 +28,12 @@ done
 
 # python3 -m pytest --cov=. tests/ --cov-fail-under=85
 # python3 -m pytest --cov-config=.coveragerc --cov=. tests/
-output=$(python3 -m pytest $pytest_cov_dirs)
+output=$(python3 -m pytest $pytest_cov_dirs --cov-config=.coveragerc)
+
+# remove pytest-coverage config file
+if [ -f $cov_config_fname ]; then
+   rm $cov_config_fname
+fi
 
 parse_title=false  # parsing title (not part of table)
 parse_contents=false  # parsing contents of table
@@ -113,29 +94,12 @@ for x in $output; do
 
       item_cnt=$((item_cnt % items_per_row))
 
-      # reset to check next file
-      if [[ $item_cnt = 0 ]]; then
-        skip_file=false
+      if [ $item_cnt = 0 ]; then
+        output_table_contents+="
+"
       fi
 
-      # check if file in excluded file list
-      if [[ $item_cnt = 0 ]]; then
-        for i in "${ignore_files_input_arr[@]}"; do
-            if [ "$i" == "$x" ] ; then
-                echo $x
-                skip_file=true
-            fi
-        done
-      fi
-
-      if [[ "$skip_file" = false ]]; then
-        if [ $item_cnt = 0 ]; then
-          output_table_contents+="
-  "
-        fi
-
-        output_table_contents+="| $x "
-      fi
+      output_table_contents+="| $x "
 
       item_cnt=$((item_cnt+1))
 
@@ -164,18 +128,18 @@ echo 'total_cov' $total_cov
 
 # check if any file_cov exceeds threshold
 for file_cov in "${file_covs[@]}"; do
-  if [ "$file_cov" -lt $4 ]; then
+  if [ "$file_cov" -lt $3 ]; then
     cov_threshold_single_fail=true
   fi
 done
 
 # check if total_cov exceeds threshold
-if [ "$total_cov" -lt $5 ];
+if [ "$total_cov" -lt $4 ];
   then cov_threshold_total_fail=true
 fi
 
-echo 'cov-threshold-single' $4
-echo 'cov-threshold-total' $5
+echo 'cov-threshold-single' $3
+echo 'cov-threshold-total' $4
 echo 'cov_threshold_single_fail' $cov_threshold_single_fail
 echo 'cov_threshold_total_fail' $cov_threshold_total_fail
 
