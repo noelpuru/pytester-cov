@@ -14,21 +14,23 @@ echo 'cov_threshold_single_fail' $cov_threshold_single_fail
 echo 'cov_threshold_total_fail' $cov_threshold_total_fail
 
 # default directories to ignore testing for coverage of .py files
-default_ignore_dirs="|
-  pytest |
-  pytest_cache |
-  __pycache__ |
-  test |
-  tests |
-  .git |
+default_ignore_dirs="
+  pytest
+  pytest_cache
+  __pycache__
+  test
+  tests
+  .git
   .github"
 ignore_dirs_arr=($default_ignore_dirs)
 
 # convert directory str input to arr
 ignore_dirs_input_arr=($2)
+ignore_files_input_arr=($3)
 
 # append additional user input dirs to ignore_dirs
 for dir in "${ignore_dirs_input_arr[@]}"; do
+  echo $dir
   ignore_dirs_arr[${#ignore_dirs_arr[*]}]="$dir"
 done
 
@@ -62,6 +64,7 @@ output_table_title=''
 output_table_contents=''
 file_covs=()
 total_cov=0
+skip_file=False
 
 for x in $output; do
   if [ "$x" = "----------------------------------------" ]; then
@@ -100,7 +103,6 @@ for x in $output; do
 
       if [[ $item_cnt = 3 ]]; then
         # store individual file coverage
-        echo $x
         file_covs+=( ${x::-1} )  # remove percentage at end
         total_cov=${x::-1}  # will store last one
       fi
@@ -111,12 +113,29 @@ for x in $output; do
 
       item_cnt=$((item_cnt % items_per_row))
 
-      if [ $item_cnt = 0 ]; then
-        output_table_contents+="
-"
+      # reset to check next file
+      if [[ "$skip_file" = true && $item_cnt = 0 ]]; then
+        skip_file=false
       fi
 
-      output_table_contents+="| $x "
+      # check if file in excluded file list
+      if [[ $item_cnt = 0 ]]; then
+        for i in "${array[@]}"; do
+            if [ "$i" == "$x" ] ; then
+                echo $x
+                skip_file=true
+            fi
+        done
+      fi
+
+      if [[ "$skip_file" = false ]]; then
+        if [ $item_cnt = 0 ]; then
+          output_table_contents+="
+  "
+        fi
+
+        output_table_contents+="| $x "
+      fi
 
       item_cnt=$((item_cnt+1))
 
