@@ -114,13 +114,13 @@ for x in $output; do
       item_cnt=$((item_cnt % items_per_row))
 
       # reset to check next file
-      if [[ "$skip_file" = true && $item_cnt = 0 ]]; then
+      if [[ $item_cnt = 0 ]]; then
         skip_file=false
       fi
 
       # check if file in excluded file list
       if [[ $item_cnt = 0 ]]; then
-        for i in "${array[@]}"; do
+        for i in "${ignore_files_input_arr[@]}"; do
             if [ "$i" == "$x" ] ; then
                 echo $x
                 skip_file=true
