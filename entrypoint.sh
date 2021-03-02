@@ -13,7 +13,7 @@ cov_threshold_total_fail=false
 # convert directory str input to arr
 cat << EOF > $cov_config_fname
 [run]
-omit = $2
+omit = test/*, temp/main3.py, temp/main4.py
 EOF
 
 # get list of dirs to run pytest-cov on
@@ -48,12 +48,8 @@ total_cov=0
 skip_file=False
 
 for x in $output; do
-  if [ "$x" = "----------------------------------------" ]; then
-    continue
-  fi
-
-  if [ "$x" = "-----------" ]; then
-    if [ "$parse_title" = false ]; then
+  if [[ $x =~ ^-+$ && $x != '--' ]]; then
+    if [[ "$parse_title" = false && "$parse_contents" = false ]]; then
       parse_title=true
     else
       output_table_title+="$x "
@@ -63,6 +59,8 @@ for x in $output; do
       continue
     fi
   fi
+
+  echo $x
 
   if [ "$parse_contents" = true ]; then
     if [ "$x" = "==============================" ]; then
@@ -76,13 +74,13 @@ for x in $output; do
     else
       # parse contents
 
-      if [[ "$parsed_content_header" = false && $item_cnt = 4 ]]; then
+      if [[ "$parsed_content_header" = false && $item_cnt == 4 ]]; then
         # needed between table headers and values for markdown table
         output_table_contents+="
 | ------ | ------ | ------ | ------ |"
       fi
 
-      if [[ $item_cnt = 3 ]]; then
+      if [[ $item_cnt == 3 ]]; then
         # store individual file coverage
         file_covs+=( ${x::-1} )  # remove percentage at end
         total_cov=${x::-1}  # will store last one
@@ -103,7 +101,7 @@ for x in $output; do
 
       item_cnt=$((item_cnt+1))
 
-      if [ $item_cnt = 4 ]; then
+      if [ $item_cnt == 4 ]; then
         output_table_contents+="|"
       fi
     fi
