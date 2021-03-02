@@ -16,6 +16,8 @@ cat << EOF > $cov_config_fname
 omit = $2
 EOF
 
+cat $cov_config_fname
+
 # get list of dirs to run pytest-cov on
 find_cmd_str="find $1 -type d"
 pytest_dirs=$(eval "$find_cmd_str")
@@ -113,16 +115,11 @@ for x in $output; do
   output_table+="$x"
 done
 
-echo $output_table_contents
-
 # remove last file-cov b/c it's total-cov
 unset 'file_covs[${#file_covs[@]}-1]'
 
 # remove first file-cov b/c it's table header
 file_covs=("${file_covs[@]:1}") #removed the 1st element
-
-for a in "${file_covs[@]}"; do echo "$a"; done
-echo 'total_cov' $total_cov
 
 # check if any file_cov exceeds threshold
 for file_cov in "${file_covs[@]}"; do
@@ -136,13 +133,7 @@ if [ "$total_cov" -lt $4 ];
   then cov_threshold_total_fail=true
 fi
 
-echo 'cov-threshold-single' $3
-echo 'cov-threshold-total' $4
-echo 'cov_threshold_single_fail' $cov_threshold_single_fail
-echo 'cov_threshold_total_fail' $cov_threshold_total_fail
-
 echo $output_table_title
-# echo $output_table
 echo $output_table_contents
 
 # github actions truncates newlines, need to do replace
