@@ -10,15 +10,13 @@ cov_config_fname=.coveragerc
 cov_threshold_single_fail=false
 cov_threshold_total_fail=false
 
-# convert directory str input to arr
+# write omit str list to coverage file
 cat << EOF > $cov_config_fname
 [run]
 omit = $2
 EOF
 
-cat $cov_config_fname
-
-# get list of dirs to run pytest-cov on
+# get list recursively of dirs to run pytest-cov on
 find_cmd_str="find $1 -type d"
 pytest_dirs=$(eval "$find_cmd_str")
 
@@ -28,8 +26,6 @@ for dir in $pytest_dirs; do
   pytest_cov_dirs+="--cov=${dir} "
 done
 
-# python3 -m pytest --cov=. tests/ --cov-fail-under=85
-# python3 -m pytest --cov-config=.coveragerc --cov=. tests/
 output=$(python3 -m pytest $pytest_cov_dirs --cov-config=.coveragerc)
 
 # remove pytest-coverage config file
@@ -62,9 +58,8 @@ for x in $output; do
     fi
   fi
 
-  echo $x
-
   if [ "$parse_contents" = true ]; then
+    # reached end of coverage table contents
     if [ "$x" = "==============================" ]; then
       break
     fi
@@ -73,9 +68,7 @@ for x in $output; do
   if [ "$parse_title" = false ]; then
     if [ "$parse_contents" = false ]; then
       continue
-    else
-      # parse contents
-
+    else  # parse contents
       if [[ "$parsed_content_header" = false && $item_cnt == 4 ]]; then
         # needed between table headers and values for markdown table
         output_table_contents+="
@@ -133,9 +126,6 @@ if [ "$total_cov" -lt $4 ];
   then cov_threshold_total_fail=true
 fi
 
-echo $output_table_title
-echo $output_table_contents
-
 # github actions truncates newlines, need to do replace
 # https://github.com/actions/create-release/issues/25
 output_table_contents="${output_table_contents//'%'/'%25'}"
@@ -146,6 +136,7 @@ if [ "$cov_threshold_total_fail" = true ]; then
   $(github.Github("action@github.com", "password")pytest $pytest_cov_dirs)
 fi
 
+# set output variables to be used in workflow file
 echo "::set-output name=output-table::$output_table_contents"
 echo "::set-output name=cov-threshold-single-fail::$cov_threshold_single_fail"
 echo "::set-output name=cov-threshold-total-fail::$cov_threshold_total_fail"
