@@ -13,7 +13,7 @@ cov_threshold_total_fail=false
 # convert directory str input to arr
 cat << EOF > $cov_config_fname
 [run]
-omit = test/*, temp/main3.py, temp/main4.py
+omit = $2
 EOF
 
 # get list of dirs to run pytest-cov on
