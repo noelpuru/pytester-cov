@@ -2,7 +2,6 @@ name: pytester-cov
 author: Alexander Damiani
 description: >-
   Recursively check pytest coverage and fail if file and/or total coverage below threshold.
-  Will also generate markdown table of coverage report.
 branding:
   color: 'gray-dark'
   icon: 'check-circle'
