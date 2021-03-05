@@ -1,4 +1,4 @@
-# pytester
+# pytester-cov
 
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python)
 
@@ -28,7 +28,7 @@ Enforce minimum pytest coverage by individual files, total, or both. Option to e
 ## Outputs
 * `output-table`
 	* str
-	
+
   * `pytest --cov` markdown output table
 
 * `cov-threshold-single-fail`
