@@ -116,14 +116,17 @@ file_covs=("${file_covs[@]:1}") #removed the 1st element
 
 # check if any file_cov exceeds threshold
 for file_cov in "${file_covs[@]}"; do
+  echo $file_cov
   if [ "$file_cov" -lt $3 ]; then
     cov_threshold_single_fail=true
+    echo "file cov: " $file_cov , $3
   fi
 done
 
 # check if total_cov exceeds threshold
-if [ "$total_cov" -lt $4 ];
-  then cov_threshold_total_fail=true
+if [ "$total_cov" -lt $4 ]; then
+  cov_threshold_total_fail=true
+  echo "total_cov: " $total_cov , $4
 fi
 
 # github actions truncates newlines, need to do replace
