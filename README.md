@@ -57,22 +57,22 @@ Enforce minimum pytest coverage by individual files, total, or both. Option to e
 
 ## Optional Inputs
 * `pytest-root-dir`
-	* root directory to recursively search for .py files
+  * root directory to recursively search for .py files
 
-	* by default `pytest --cov` does not run recursively, but will here
+  * by default `pytest --cov` does not run recursively, but will here
 
 * `cov-omit-list`
-	* list of directories and/or files to ignore
+  * list of directories and/or files to ignore
 
 * `cov-threshold-single`
-	* fail if any single file coverage is less than threshold
+  * fail if any single file coverage is less than threshold
 
 * `cov-threshold-total`
-	* fail if the total coverage is less than threshold
+  * fail if the total coverage is less than threshold
 
 ## Outputs
 * `output-table`
-	* str
+  * str
 
   * `pytest --cov` markdown output table
 
@@ -140,7 +140,7 @@ jobs:
 
     - name: pytester-cov
       id: pytester-cov
-      uses: alexanderdamiani/pytester-cov@v1.0.2
+      uses: alexanderdamiani/pytester-cov@v1.0.0
       with:
         pytest-root-dir: '.'
         cov-omit-list: 'test/*, temp/main3.py, temp/main4.py'
@@ -178,6 +178,9 @@ jobs:
       run: |
         echo "cov single fail ${{ steps.pytester-cov.outputs.cov-threshold-total-fail }}"
         exit 1
+
+    - name: print
+      run: echo "${{ steps.pytester-cov.outputs.output-table }}"
 
     - name: Commit pytest coverage table
       uses: peter-evans/commit-comment@v1
