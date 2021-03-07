@@ -148,14 +148,14 @@ jobs:
         cov-threshold-total: ${{ env.COVERAGE_TOTAL }}
 
     - name: Coverage single fail - new issue
-      if: ${{ steps.pytest.outputs.cov-threshold-single-fail == 'true' }}
+      if: ${{ steps.pytest-cov.outputs.cov-threshold-single-fail == 'true' }}
       uses: nashmaniac/create-issue-action@v1.1
       with:
         title: Pytest coverage single falls below minimum ${{ env.COVERAGE_SINGLE }}
         token: ${{secrets.GITHUB_TOKEN}}
         assignees: ${{github.actor}}
         labels: worflow-failed
-        body: ${{ steps.pytest.outputs.output-table }}
+        body: ${{ steps.pytest-cov.outputs.output-table }}
 
     - name: Coverage single fail - exit
       if: ${{ steps.pytester-cov.outputs.cov-threshold-single-fail == 'true' }}
@@ -178,9 +178,6 @@ jobs:
       run: |
         echo "cov single fail ${{ steps.pytester-cov.outputs.cov-threshold-total-fail }}"
         exit 1
-
-    - name: print
-      run: echo "${{ steps.pytester-cov.outputs.output-table }}"
 
     - name: Commit pytest coverage table
       uses: peter-evans/commit-comment@v1
