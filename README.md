@@ -109,7 +109,7 @@ Enforce minimum pytest coverage by individual files, total, or both. Option to e
 #
 # Workflows used:
 #   * actions/checkout@v2: checkout files to perform additional actions on
-#   * alexanderdamiani/pytester-cov@v1.0.0: runs pytest --cov and associated functions
+#   * alexanderdamiani/pytester-cov@v1.0.1: runs pytest --cov and associated functions
 #   * nashmaniac/create-issue-action@v1.1: creates issue for repo
 #   * peter-evans/commit-comment@v1: adds message to commit
 # **************************************************************************************************************** #
@@ -140,7 +140,7 @@ jobs:
 
     - name: pytester-cov
       id: pytester-cov
-      uses: alexanderdamiani/pytester-cov@v1.0.0
+      uses: alexanderdamiani/pytester-cov@v1.0.1
       with:
         pytest-root-dir: '.'
         cov-omit-list: 'test/*, temp/main3.py, temp/main4.py'

@@ -26,7 +26,7 @@ for dir in $pytest_dirs; do
   pytest_cov_dirs+="--cov=${dir} "
 done
 
-output=$(python3 -m pytest $pytest_cov_dirs --cov-config=.coveragerc)
+output=$(python3 -m pytest "$pytest_cov_dirs" --cov-config=.coveragerc)
 
 # remove pytest-coverage config file
 if [ -f $cov_config_fname ]; then
@@ -43,7 +43,6 @@ output_table_title=''
 output_table_contents=''
 file_covs=()
 total_cov=0
-skip_file=False
 
 for x in $output; do
   if [[ $x =~ ^-+$ && $x != '--' ]]; then
@@ -77,7 +76,7 @@ for x in $output; do
 
       if [[ $item_cnt == 3 ]]; then
         # store individual file coverage
-        file_covs+=( ${x::-1} )  # remove percentage at end
+        file_covs+=( "${x::-1}" )  # remove percentage at end
         total_cov=${x::-1}  # will store last one
       fi
 
@@ -116,13 +115,13 @@ file_covs=("${file_covs[@]:1}") #removed the 1st element
 
 # check if any file_cov exceeds threshold
 for file_cov in "${file_covs[@]}"; do
-  if [ "$file_cov" -lt $3 ]; then
+  if [ "$file_cov" -lt "$3" ]; then
     cov_threshold_single_fail=true
   fi
 done
 
 # check if total_cov exceeds threshold
-if [ "$total_cov" -lt $4 ]; then
+if [ "$total_cov" -lt "$4" ]; then
   cov_threshold_total_fail=true
 fi
 
