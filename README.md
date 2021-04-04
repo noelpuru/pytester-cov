@@ -43,51 +43,6 @@ Enforce minimum pytest coverage by individual files, total, or both. Option to e
 
 ## Template workflow file
 ```yaml
-# pytester
-
-[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python)
-
-Enforce minimum pytest coverage by individual files, total, or both. Option to exclude directories and files as well.
-
-## Python Packages Used
-
-* [`pytest`](https://pypi.org/project/pytest/)
-
-* [`pytest-cov`](https://pypi.org/project/pytest-cov/)
-
-## Optional Inputs
-* `pytest-root-dir`
-  * root directory to recursively search for .py files
-
-  * by default `pytest --cov` does not run recursively, but will here
-
-* `cov-omit-list`
-  * list of directories and/or files to ignore
-
-* `cov-threshold-single`
-  * fail if any single file coverage is less than threshold
-
-* `cov-threshold-total`
-  * fail if the total coverage is less than threshold
-
-## Outputs
-* `output-table`
-  * str
-
-  * `pytest --cov` markdown output table
-
-* `cov-threshold-single-fail`
-  * boolean
-
-  * `false` if any single file coverage less than `cov-threshold-single`, else `true`
-
-* `cov-threshold-total-fail`
-  * boolean
-
-  * `false` if total coverage less than `cov-threshold-total`, else `true`
-
-## Template workflow file
-```yaml
 # **************************************************************************************************************** #
 # This workflow will install Python dependencies, and run pytest --cov on all files recursively from the pytest-root-dir
 # The workflow is also configured to exit with error if minimum individual file or total pytest coverage minimum not met
