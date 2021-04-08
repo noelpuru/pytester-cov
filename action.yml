@@ -1,4 +1,4 @@
-name: pytester
+name: pytester-cov
 author: Alexander Damiani
 description: >-
   Recursively check pytest coverage. Fail if coverage below threshold.
