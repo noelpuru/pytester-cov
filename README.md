@@ -1,7 +1,5 @@
 # pytester-cov
 
-This repository is protected under the `BSD 3-Clause License` which can be found in `LICENSE`.
-
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python)
 
 Enforce minimum pytest coverage by individual files, total, or both. Option to exclude directories and files as well.
@@ -143,4 +141,5 @@ jobs:
 ```
 
 ## License
-[MIT License](https://github.com/git/git-scm.com/blob/master/MIT-LICENSE.txt)
+This repository is protected under the `BSD 3-Clause License` which can be found in `LICENSE`.
+[BSD 3-Clause License](https://github.com/alexanderdamiani/pytester-cov/blob/main/LICENSE)
