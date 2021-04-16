@@ -141,5 +141,4 @@ jobs:
 ```
 
 ## License
-This repository is protected under the `BSD 3-Clause License` which can be found in `LICENSE`.
 [BSD 3-Clause License](https://github.com/alexanderdamiani/pytester-cov/blob/main/LICENSE)
