@@ -17,6 +17,8 @@ cat << EOF > $cov_config_fname
 omit = $3, .git/*
 EOF
 
+echo $PWD
+
 echo "arg 1: $1"
 echo "arg 2: $2"
 echo "arg 3: $3"
