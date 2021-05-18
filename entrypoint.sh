@@ -2,9 +2,10 @@
 
 # --- Parameters --- #
 # $1: pytest-root-dir
-# $2: cov-omit-list
-# $3: cov-threshold-single
-# $4: cov-threshold-total
+# $2: tests dir
+# $3: cov-omit-list
+# $4: cov-threshold-single
+# $5: cov-threshold-total
 
 cov_config_fname=.coveragerc
 cov_threshold_single_fail=false
@@ -13,13 +14,13 @@ cov_threshold_total_fail=false
 # write omit str list to coverage file
 cat << EOF > $cov_config_fname
 [run]
-omit = $2
+omit = $3
 EOF
 
 echo "arg 1: $1"
-echo "arg 2: $2"
-echo "arg 3: $3"
-echo "arg 4: $4"
+echo "arg 2: $3"
+echo "arg 3: $4"
+echo "arg 4: $5"
 
 # get list recursively of dirs to run pytest-cov on
 find_cmd_str="find $1 -type d"
@@ -31,7 +32,7 @@ for dir in $pytest_dirs; do
   pytest_cov_dirs+="--cov=${dir} "
 done
 
-output=$(python3 -m pytest $pytest_cov_dirs --cov-config=.coveragerc)
+output=$(python3 -m pytest $pytest_cov_dirs --cov-config=.coveragerc $2)
 
 # remove pytest-coverage config file
 if [ -f $cov_config_fname ]; then
@@ -122,15 +123,15 @@ echo $output_table_contents
 
 # check if any file_cov exceeds threshold
 for file_cov in "${file_covs[@]}"; do
-  echo "file_cov: $file_cov and arg 3: $3"
-  if [ "$file_cov" -lt $3 ]; then
+  echo "file_cov: $file_cov and arg 3: $4"
+  if [ "$file_cov" -lt $4 ]; then
     cov_threshold_single_fail=true
   fi
 done
 
 # check if total_cov exceeds threshold
-if [ "$total_cov" -lt $4 ]; then
-  echo "total_cov: $total_cov and arg 4: $4"
+if [ "$total_cov" -lt $5 ]; then
+  echo "total_cov: $total_cov and arg 4: $5"
   cov_threshold_total_fail=true
 fi
 

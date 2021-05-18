@@ -11,6 +11,10 @@ inputs:
     description: 'root directory to recursively search for .py files'
     required: false
     default: '.'
+  pytest-tests-dir:
+    description: 'directory with pytest tests'
+    required: false
+    default: ''
   cov-omit-list:
     description: 'list of directories and/or files to ignore'
     required: false
@@ -35,6 +39,7 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.pytest-root-dir }}
+    - ${{ inputs.pytest-tests-dir }}
     - ${{ inputs.cov-omit-list }}
     - ${{ inputs.cov-threshold-single }}
     - ${{ inputs.cov-threshold-total }}
