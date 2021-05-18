@@ -118,6 +118,8 @@ unset 'file_covs[${#file_covs[@]}-1]'
 # remove first file-cov b/c it's table header
 file_covs=("${file_covs[@]:1}") #removed the 1st element
 
+echo $output_table_title
+
 # check if any file_cov exceeds threshold
 for file_cov in "${file_covs[@]}"; do
   echo "file_cov: $file_cov and arg 3: $3"

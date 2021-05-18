@@ -43,7 +43,37 @@ Enforce minimum pytest coverage by individual files, total, or both. Option to e
 
 ## Template workflow file
 ```yaml
+<<<<<<< HEAD
 name: Pytester workflow
+=======
+# **************************************************************************************************************** #
+# This workflow will install Python dependencies, and run `pytest --cov` on all files recursively from the `pytest-root-dir`
+# The workflow is also configured to exit with error if minimum individual file or total pytest coverage minimum not met
+# If the workflow exits with error, an informative issue is created for the repo alerting the user
+# If the workflow succeeds, a commit message is generated with the `pytest --cov` markdown table
+#
+# Variables to set:
+#   * pytester action:
+#     * pytest-root-dir: top-level directory to recursively check all .py files for `pytest --cov`
+#     * cov-omit-list: comma separated str of all files and/or dirs to ignore
+#   * env:
+#     * COVERAGE_SINGLE: minimum individual file coverage required
+#     * COVERAGE_TOTAL: minimum total coverage required
+#
+# Action outputs:
+#   * output-table: `pytest --cov` markdown output table
+#   * cov-threshold-single-fail: `false` if any single file coverage less than `cov-threshold-single`, else `true`
+#   * cov-threshold-total-fail: `false` if total coverage less than `cov-threshold-total`, else `true`
+#
+# Workflows used:
+#   * actions/checkout@v2: checkout files to perform additional actions on
+#   * alexanderdamiani/pytester-cov@v1.0.1: runs `pytest --cov` and associated functions
+#   * nashmaniac/create-issue-action@v1.1: creates issue for repo
+#   * peter-evans/commit-comment@v1: adds message to commit
+# **************************************************************************************************************** #
+
+name: pytester-cov workflow
+>>>>>>> e9ad37df9bbfcb430fb54cd9fa83f17bd543afd3
 
 on: [push, pull_request]
 
@@ -67,9 +97,15 @@ jobs:
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
+<<<<<<< HEAD
     - name: pytester-cov
       id: pytester-cov
       uses: alexanderdamiani/pytester-cov@v1.0.2
+=======
+    - name: pytest
+      id: pytest
+      uses: alexanderdamiani/pytester-cov@v1.0.1
+>>>>>>> e9ad37df9bbfcb430fb54cd9fa83f17bd543afd3
       with:
         pytest-root-dir: '.'
         cov-omit-list: 'test/*, temp/main3.py, temp/main4.py'
@@ -115,4 +151,4 @@ jobs:
 ```
 
 ## License
-[MIT License](https://github.com/git/git-scm.com/blob/master/MIT-LICENSE.txt)
+[BSD 3-Clause License](https://github.com/alexanderdamiani/pytester-cov/blob/main/LICENSE)
