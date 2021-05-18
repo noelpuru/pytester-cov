@@ -64,8 +64,7 @@ for x in $output; do
 
   if [ "$parse_contents" = true ]; then
     # reached end of coverage table contents
-    echo $x
-    if [ "$x" =~ ^={5,}$ ]; then
+    if [[ "$x" =~ ^={5,}$ ]]; then
       break
     fi
   fi
