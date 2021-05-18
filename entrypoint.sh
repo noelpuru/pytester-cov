@@ -38,9 +38,7 @@ echo $pytest_cov_dirs
 echo "python3 -m pytest $pytest_cov_dirs --cov-config=.coveragerc $2"
 
 output=$(python3 -m pytest $pytest_cov_dirs --cov-config=.coveragerc $2)
-
-output2=$(python3 -m pytest .)
-echo $output2
+echo $output
 
 # remove pytest-coverage config file
 if [ -f $cov_config_fname ]; then
