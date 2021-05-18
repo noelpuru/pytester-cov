@@ -18,9 +18,10 @@ omit = $3
 EOF
 
 echo "arg 1: $1"
-echo "arg 2: $3"
-echo "arg 3: $4"
-echo "arg 4: $5"
+echo "arg 2: $2"
+echo "arg 3: $3"
+echo "arg 4: $4"
+echo "arg 5: $5"
 
 # get list recursively of dirs to run pytest-cov on
 find_cmd_str="find $1 -type d"
@@ -31,6 +32,8 @@ pytest_cov_dirs=""
 for dir in $pytest_dirs; do
   pytest_cov_dirs+="--cov=${dir} "
 done
+
+echo $pytest_cov_dirs
 
 output=$(python3 -m pytest $pytest_cov_dirs --cov-config=.coveragerc $2)
 
