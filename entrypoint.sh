@@ -19,8 +19,11 @@ EOF
 
 echo "PWD: $PWD"
 echo "PYTHONPATH: $PYTHONPATH"
-echo "$(ls)"
 
+export PYTHONPATH="${PYTHONPATH}:$PWD"
+echo "PYTHONPATH: $PYTHONPATH"
+
+echo "$(ls)"
 
 export ROOT_DIR='.'
 
