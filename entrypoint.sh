@@ -11,7 +11,7 @@ cov_config_fname=.coveragerc
 cov_threshold_single_fail=false
 cov_threshold_total_fail=false
 
-# must reinstall requirements in container to access
+# must reinstall requirements in container to prevent ImportErrors
 if test -f "requirements.txt"; then
     $(python3 -m pip install -r requirements.txt)
 fi
@@ -21,23 +21,6 @@ cat << EOF > $cov_config_fname
 [run]
 omit = $3
 EOF
-
-echo "PWD: $PWD"
-echo "PYTHONPATH: $PYTHONPATH"
-
-export PYTHONPATH="${PYTHONPATH}:$PWD"
-echo "PYTHONPATH: $PYTHONPATH"
-
-echo "$(ls)"
-
-export ROOT_DIR='.'
-
-echo "PWD: $PWD"
-echo "arg 1: $1"
-echo "arg 2: $2"
-echo "arg 3: $3"
-echo "arg 4: $4"
-echo "arg 5: $5"
 
 # get list recursively of dirs to run pytest-cov on
 find_cmd_str="find $1 -type d"
@@ -49,12 +32,7 @@ for dir in $pytest_dirs; do
   pytest_cov_dirs+="--cov=${dir} "
 done
 
-echo $pytest_cov_dirs
-
-echo "python3 -m pytest $pytest_cov_dirs --cov-config=.coveragerc $2"
-
-output=$(python3 -m pytest --cov=. tests/)
-echo $output
+output=$(python3 -m pytest $pytest_cov_dirs --cov-config=.coveragerc $2)
 
 # remove pytest-coverage config file
 if [ -f $cov_config_fname ]; then
@@ -141,11 +119,8 @@ unset 'file_covs[${#file_covs[@]}-1]'
 # remove first file-cov b/c it's table header
 file_covs=("${file_covs[@]:1}") #removed the 1st element
 
-echo $output_table_contents
-
 # check if any file_cov exceeds threshold
 for file_cov in "${file_covs[@]}"; do
-  echo "file_cov: $file_cov and arg 3: $4"
   if [ "$file_cov" -lt $4 ]; then
     cov_threshold_single_fail=true
   fi
@@ -153,7 +128,6 @@ done
 
 # check if total_cov exceeds threshold
 if [ "$total_cov" -lt $5 ]; then
-  echo "total_cov: $total_cov and arg 4: $5"
   cov_threshold_total_fail=true
 fi
 
