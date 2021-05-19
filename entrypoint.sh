@@ -14,11 +14,15 @@ cov_threshold_total_fail=false
 # write omit str list to coverage file
 cat << EOF > $cov_config_fname
 [run]
-omit = $3, .git/*
+omit = $3
 EOF
 
-echo $PWD
+echo "PWD: $PWD"
+echo "$(ls)"
 
+export ROOT_DIR='.'
+
+echo "PWD: $PWD"
 echo "arg 1: $1"
 echo "arg 2: $2"
 echo "arg 3: $3"
