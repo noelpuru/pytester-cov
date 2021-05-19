@@ -11,7 +11,10 @@ cov_config_fname=.coveragerc
 cov_threshold_single_fail=false
 cov_threshold_total_fail=false
 
-$(python3 -m pip install -r requirements.txt)
+# must reinstall requirements in container to access
+if test -f "requirements.txt"; then
+    $(python3 -m pip install -r requirements.txt)
+fi
 
 # write omit str list to coverage file
 cat << EOF > $cov_config_fname
