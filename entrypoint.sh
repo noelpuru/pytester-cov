@@ -18,6 +18,7 @@ omit = $3
 EOF
 
 echo "PWD: $PWD"
+echo "PYTHONPATH: $PYTHONPATH"
 echo "$(ls)"
 
 
@@ -42,9 +43,9 @@ done
 
 echo $pytest_cov_dirs
 
-echo "pytest $pytest_cov_dirs --cov-config=.coveragerc $2"
+echo "python3 -m pytest $pytest_cov_dirs --cov-config=.coveragerc $2"
 
-output=$(pytest --cov=. tests/)
+output=$(python3 -m pytest --cov=. tests/)
 echo $output
 
 # remove pytest-coverage config file
