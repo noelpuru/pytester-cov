@@ -20,6 +20,7 @@ EOF
 echo "PWD: $PWD"
 echo "$(ls)"
 
+
 export ROOT_DIR='.'
 
 echo "PWD: $PWD"
