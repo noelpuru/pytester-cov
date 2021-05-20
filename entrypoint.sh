@@ -4,16 +4,17 @@
 # $1: pytest-root-dir
 # $2: tests dir
 # $3: cov-omit-list
-# $4: cov-threshold-single
-# $5: cov-threshold-total
+# $4: requirements filepath
+# $5: cov-threshold-single
+# $6: cov-threshold-total
 
 cov_config_fname=.coveragerc
 cov_threshold_single_fail=false
 cov_threshold_total_fail=false
 
 # must reinstall requirements in container to prevent ImportErrors
-if test -f "requirements.txt"; then
-    $(python3 -m pip install -r requirements.txt)
+if test -f "$4"; then
+    $(python3 -m pip install -r $4 --no-cache-dir)
 fi
 
 # write omit str list to coverage file
@@ -121,13 +122,13 @@ file_covs=("${file_covs[@]:1}") #removed the 1st element
 
 # check if any file_cov exceeds threshold
 for file_cov in "${file_covs[@]}"; do
-  if [ "$file_cov" -lt $4 ]; then
+  if [ "$file_cov" -lt $5 ]; then
     cov_threshold_single_fail=true
   fi
 done
 
 # check if total_cov exceeds threshold
-if [ "$total_cov" -lt $5 ]; then
+if [ "$total_cov" -lt $6 ]; then
   cov_threshold_total_fail=true
 fi
 

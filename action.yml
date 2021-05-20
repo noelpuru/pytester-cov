@@ -12,13 +12,17 @@ inputs:
     required: false
     default: '.'
   pytest-tests-dir:
-    description: 'directory with pytest tests'
+    description: 'directory with pytest tests. if left empty will identify test(s) dir by default'
     required: false
     default: ''
   cov-omit-list:
     description: 'list of directories and/or files to ignore'
     required: false
     default: ''
+  requirements-file:
+    description: 'requirements filepath for project'
+    required: false
+    default: 'requirements.txt'
   cov-threshold-single:
     description: 'fail if any single file coverage is less than threshold'
     required: false
@@ -41,5 +45,6 @@ runs:
     - ${{ inputs.pytest-root-dir }}
     - ${{ inputs.pytest-tests-dir }}
     - ${{ inputs.cov-omit-list }}
+    - ${{ inputs.requirements-file }}
     - ${{ inputs.cov-threshold-single }}
     - ${{ inputs.cov-threshold-total }}
