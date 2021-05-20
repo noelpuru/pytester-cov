@@ -43,8 +43,6 @@ Enforce minimum pytest coverage by individual files, total, or both. Option to e
 
 ## Template workflow file
 ```yaml
-name: Pytester workflow
-=======
 # **************************************************************************************************************** #
 # This workflow will install Python dependencies, and run `pytest --cov` on all files recursively from the `pytest-root-dir`
 # The workflow is also configured to exit with error if minimum individual file or total pytest coverage minimum not met
