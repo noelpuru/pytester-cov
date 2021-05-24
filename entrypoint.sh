@@ -132,6 +132,22 @@ if [ "$total_cov" -lt $6 ]; then
   cov_threshold_total_fail=true
 fi
 
+# set badge color
+if [ "$total_cov" -le 20 ]; then
+  color="red"
+elif [ "$total_cov" -gt 20 ] && [ "$total_cov" -le 50 ]; then
+  color="orange"
+elif [ "$total_cov" -gt 50 ] && [ "$total_cov" -le 70 ]; then
+  color="yellow"
+elif [ "$total_cov" -gt 70 ] && [ "$total_cov" -le 90 ]; then
+  color="green"
+elif [ "$total_cov" -gt 90 ]; then
+  color="brightgreen"
+fi
+
+badge="!()[https://img.shields.io/static/v1?label=pytest-coverage🛡️&message=$total_cov%&color=$color]\n"
+output_table_contents="${badge}${output_table_contents}"
+
 # github actions truncates newlines, need to do replace
 # https://github.com/actions/create-release/issues/25
 output_table_contents="${output_table_contents//'%'/'%25'}"
