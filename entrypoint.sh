@@ -145,7 +145,7 @@ elif [ "$total_cov" -gt 90 ]; then
   color="brightgreen"
 fi
 
-badge="!()[https://img.shields.io/static/v1?label=pytest-coverage🛡️&message=$total_cov%&color=$color]\n"
+badge="![pytest-coverage-badge](https://img.shields.io/static/v1?label=pytest-coverage🛡️&message=$total_cov%&color=$color)"
 output_table_contents="${badge}${output_table_contents}"
 
 # github actions truncates newlines, need to do replace
