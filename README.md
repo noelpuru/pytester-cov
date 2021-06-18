@@ -16,6 +16,16 @@ Enforce minimum pytest coverage by individual files, total, or both. Option to e
 
 	* by default `pytest --cov` does not run recursively, but will here
 
+* `pytest-tests-dir`
+	* directory with pytest tests
+
+	* if left empty will identify test(s) dir by default
+
+* `requirements-file`
+	* requirements filepath for project
+
+	* if left empty will default to `requirements.txt`
+
 * `cov-omit-list`
 	* list of directories and/or files to ignore
 
