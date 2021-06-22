@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3.6
 RUN set -eux; \
 	apt-get update; \
 	apt-get install -y sqlite3; \
