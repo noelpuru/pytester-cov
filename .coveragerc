@@ -1,3 +1,8 @@
 [run]
-omit = tests/*
-omit = test/*
+omit = 
+  manage.py
+  */apps.py
+  */urls.py
+  *tests/*
+  config/*
+  */migrations/*
