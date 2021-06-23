@@ -8,7 +8,6 @@
 # $5: cov-threshold-single
 # $6: cov-threshold-total
 
-cov_config_fname=.coveragerc
 cov_threshold_single_fail=false
 cov_threshold_total_fail=false
 
@@ -16,12 +15,6 @@ cov_threshold_total_fail=false
 if test -f "$4"; then
     $(python3 -m pip install -r $4 --no-cache-dir)
 fi
-
-# write omit str list to coverage file
-cat << EOF > $cov_config_fname
-[run]
-omit = $3
-EOF
 
 # get list recursively of dirs to run pytest-cov on
 find_cmd_str="find $1 -type d"
@@ -36,11 +29,6 @@ done
 # output=$(python3 -m pytest $pytest_cov_dirs --cov-config=.coveragerc $2)
 python3 -m pytest --cov .
 output=$(python3 -m pytest --cov .)
-
-# remove pytest-coverage config file
-if [ -f $cov_config_fname ]; then
-   rm $cov_config_fname
-fi
 
 parse_title=false  # parsing title (not part of table)
 parse_contents=false  # parsing contents of table
