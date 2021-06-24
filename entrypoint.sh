@@ -11,6 +11,10 @@
 cov_threshold_single_fail=false
 cov_threshold_total_fail=false
 
+if [ -f requirements.txt ]; then
+  pip install -r requirements.txt
+fi
+
 # output=$(python3 -m pytest $pytest_cov_dirs --cov-config=.coveragerc $2)
 python3 -m pytest --cov .
 output=$(python3 -m pytest --cov .)
