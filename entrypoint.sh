@@ -11,21 +11,6 @@
 cov_threshold_single_fail=false
 cov_threshold_total_fail=false
 
-# must reinstall requirements in container to prevent ImportErrors
-if test -f "$4"; then
-    $(python3 -m pip install -r $4 --no-cache-dir)
-fi
-
-# get list recursively of dirs to run pytest-cov on
-find_cmd_str="find $1 -type d"
-pytest_dirs=$(eval "$find_cmd_str")
-
-# build cov argument for pytest cmd with list of dirs
-pytest_cov_dirs=""
-for dir in $pytest_dirs; do
-  pytest_cov_dirs+="--cov=${dir} "
-done
-
 # output=$(python3 -m pytest $pytest_cov_dirs --cov-config=.coveragerc $2)
 python3 -m pytest --cov .
 output=$(python3 -m pytest --cov .)
